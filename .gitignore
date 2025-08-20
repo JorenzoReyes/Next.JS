@@ -4,8 +4,6 @@
 # Build output
 /.next
 /out
-
-# Production
 /build
 
 # Logs
@@ -15,20 +13,18 @@ yarn-error.log*
 pnpm-debug.log*
 *.log
 
-# OS-specific
-.DS_Store
-Thumbs.db
-
 # Env files
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
-
-# Optional: keep base .env but ignore local overrides
 .env
 
-# Editor / IDE
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# IDE / Editor
 .vscode/*
 !.vscode/settings.json
 !.vscode/extensions.json
@@ -37,3 +33,9 @@ Thumbs.db
 
 # TypeScript
 *.tsbuildinfo
+
+# Python virtual environment
+venv/
+.env/
+__pycache__/
+*.pyc
