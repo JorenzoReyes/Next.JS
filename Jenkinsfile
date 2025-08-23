@@ -6,8 +6,11 @@ pipeline {
         DOCKER_REGISTRY = "docker.io/jorenzo"
         APP_NAME = "datadrip"
     }
+    
+    
 
     stages {
+
         stage('Checkout') {
             steps {
                 git branch: 'CICD-act',
@@ -15,18 +18,19 @@ pipeline {
             }
         }
 
-        stage('Install & Build') {
+        stage('Build') {
             steps {
-                sh '''
-                    npm install
-                    npm run build
-                '''
+                bat 'npm install'
+                bat 'npm run build'
+                bat 'npm install -g @railway/cli'
+                    
             }
         }
 
+
         stage('Unit Test') {
             steps {
-                sh 'npm test'
+                bat 'npm test'
             }
             // post {
             //     always {
@@ -37,33 +41,32 @@ pipeline {
 
         stage('Deploy to Test Environment') {
             steps {
-                sh '''
+                bat '''
                     echo "Deploying to Railway..."
-                    railway up --service $APP_NAME --detach --token=$RAILWAY_TOKEN
+                    npx railway up --service datadrip --detach
                 '''
             }
         }
 
         stage('Integration Test') {
             steps {
-                sh '''
-                    echo "Running integration tests..."
-                    # Example: wait for test env to be live
-                    sleep 30
-                    npm run test:integration
-                '''
+                bat 'echo "Running integration tests..." '
+                bat 'npm run test:integration' 
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh '''
-                    docker build -t $DOCKER_REGISTRY/$APP_NAME:$BUILD_NUMBER .
-                    echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-                    docker push $DOCKER_REGISTRY/$APP_NAME:$BUILD_NUMBER
-                '''
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    bat '''
+                        docker build -t %DOCKER_REGISTRY%/%APP_NAME%:%BUILD_NUMBER% .
+                        echo %DOCKER_PASSWORD% | docker login -u %DOCKER_USERNAME% --password-stdin
+                        docker push %DOCKER_REGISTRY%/%APP_NAME%:%BUILD_NUMBER%
+                    '''
+                }
             }
         }
+
     }
 
     post {

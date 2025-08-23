@@ -9,7 +9,7 @@
     "lint": "eslint",
     "test": "jest",
     "test:e2e": "playwright test",
-    "test:integration" : "echo \"Running dummy integration test...\" && exit 0"
+    "test:integration": "echo \"Running dummy integration test...\" && exit 0"
   },
   "dependencies": {
     "next": "15.5.0",
