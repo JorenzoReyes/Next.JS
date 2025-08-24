@@ -1,20 +1,58 @@
+# Docker build context exclusions
 Dockerfile
 .dockerignore
+
+# Dependencies (will be installed fresh in container)
 node_modules
-npm-debug.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Documentation and config files
 README.md
-.env
+.git
+.gitignore
+.eslintrc*
+.prettierrc*
+.editorconfig
+
+# Environment files
+.env*
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
-.git
-.gitignore
+
+# Build outputs and caches
 .next
 .vercel
-# *.tsbuildinfo
+out/
+build/
+dist/
+*.tsbuildinfo
+next-env.d.ts
+
+# Testing and coverage
 coverage
 .nyc_output
+.jest/
+
+# OS and editor files
 .DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
 *.tgz
 *.tar.gz
+
+# IDE and editor configs
+.vscode/
+.idea/
+*.sublime-*
