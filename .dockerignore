@@ -12,7 +12,7 @@ README.md
 .gitignore
 .next
 .vercel
-*.tsbuildinfo
+# *.tsbuildinfo
 coverage
 .nyc_output
 .DS_Store
